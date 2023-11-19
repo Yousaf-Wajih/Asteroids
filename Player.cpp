@@ -55,6 +55,11 @@ void Player::update(float deltaTime) {
 	for (size_t i = 0; i < Game::entities.size(); i++) {
 		if (typeid(*Game::entities[i]) == typeid(Asteroid)) {
 			Asteroid* asteroid = dynamic_cast<Asteroid*>(Game::entities[i]);
+
+			if (asteroid->getLife() < ASTEROID_HIT_TIME) {
+				continue;
+			}
+
 			sf::Transform asteroidTransform = sf::Transform()
 				.translate(asteroid->position)
 				.rotate(asteroid->angle);

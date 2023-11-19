@@ -3,7 +3,7 @@
 #include <random>
 
 Asteroid::Asteroid(sf::Vector2f direction, sf::Vector2f position)
-	: Entity(position, 0), direction(direction), array(sf::LinesStrip, 12) {
+	: Entity(position, 0), direction(direction), array(sf::LinesStrip, 12), life() {
 	array[0].position = sf::Vector2f(-40, 40);
 	array[1].position = sf::Vector2f(-50, 10);
 	array[2].position = sf::Vector2f(-10, -20);
@@ -23,6 +23,8 @@ Asteroid::Asteroid(sf::Vector2f direction, sf::Vector2f position)
 }
 
 void Asteroid::update(float deltaTime) {
+	life += deltaTime;
+
 	position += ASTEROID_SPEED * direction * deltaTime;
 	angle += ASTEROID_SPIN * deltaTime;
 
