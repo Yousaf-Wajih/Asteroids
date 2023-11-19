@@ -1,4 +1,5 @@
 #pragma once
+#include "Asteroid.h"
 #include "Entity.h"
 #include <SFML/Audio.hpp>
 
@@ -14,6 +15,8 @@ public:
 
 	void update(float deltaTime) override;
 	void render(sf::RenderWindow& window) override;
+
+	bool checkIntersects(Asteroid* asteroid);
 
 private:
 	sf::VertexArray array;

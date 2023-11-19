@@ -2,6 +2,8 @@
 #include "Bullet.h"
 #include "Global.h"
 #include "Game.h"
+#include "Asteroid.h"
+#include "Physics.h"
 
 Player::Player()
 	: Entity(sf::Vector2f(500, 500), 0), array(sf::LinesStrip, 5), shootTimer() {
@@ -46,6 +48,22 @@ void Player::update(float deltaTime) {
 
 		Game::toAddList.push_back(
 			new Bullet(position, sf::Vector2f(cos(radians), sin(radians))));
+	}
+
+	sf::Transform playerTransform = sf::Transform().translate(position).rotate(angle);
+
+	for (size_t i = 0; i < Game::entities.size(); i++) {
+		if (typeid(*Game::entities[i]) == typeid(Asteroid)) {
+			Asteroid* asteroid = dynamic_cast<Asteroid*>(Game::entities[i]);
+			sf::Transform asteroidTransform = sf::Transform()
+				.translate(asteroid->position)
+				.rotate(asteroid->angle);
+
+			if (physics::intersects(physics::getTransformed(array, playerTransform),
+				physics::getTransformed(asteroid->getVertexArray(), asteroidTransform))) {
+				Game::gameOver();
+			}
+		}
 	}
 }
 
